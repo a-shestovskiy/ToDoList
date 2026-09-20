@@ -38,47 +38,63 @@ public class Window extends JFrame {
         } else{
             setSize(width, height);
         }
-        //setLayout(new BoxLayout(this, orientation.getAxis()));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, orientation.getAxis()));
-        //setContentPane(panel);
-        //add(new JPanel());
     }
 
-    //BoxLayout
-    //panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
     JPanel addPanel(Orientation orientation){
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, orientation.getAxis()));
         panel.setComponentOrientation(null);
 
-        this.add(panel);
         panels.add(panel);
         return panel;
     }
 
-    void addButton(JPanel panel){
+    JButton addButton(JPanel panel){
         JButton button = new JButton("button");
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(button);
         buttons.add(button);
+        return button;
     }
 
-    void addTextArea(JPanel panel){
+
+    void addBorder(JComponent component, JPanel panel, int topIndent, int leftIndent, int bottomIndent, int rightIndent){
+        JPanel tempPanel = new JPanel();
+        tempPanel.setSize(component.getSize());
+        tempPanel.add(component);
+        tempPanel.setBorder(BorderFactory.createEmptyBorder(topIndent,leftIndent,bottomIndent,rightIndent));
+        panel.add(tempPanel);
+    }
+
+    JTextArea addTextArea(JPanel panel, boolean withScroll){
         JTextArea textArea = new JTextArea(2,20);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         Font font = new Font("Times new roman", Font.PLAIN, 18);
         textArea.setFont(font);
-        panel.add(textArea);
+
+        if(withScroll){
+            JScrollPane textScroll = new JScrollPane(
+                    textArea,
+                    JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                    JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+            );
+
+            textScroll.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
+
+            panel.add(textScroll);
+        }else{
+            panel.add(textArea);
+        }
+
+        return textArea;
     }
 
     JScrollPane addScroll(JPanel panel){
         return new JScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-    }
-
-    JPanel getMainPanel(){
-        return (JPanel) this.getContentPane();
     }
 }
