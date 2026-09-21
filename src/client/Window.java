@@ -61,16 +61,16 @@ public class Window extends JFrame {
         return button;
     }
 
-
     void addBorder(JComponent component, JPanel panel, int topIndent, int leftIndent, int bottomIndent, int rightIndent){
         JPanel tempPanel = new JPanel();
+        tempPanel.setLayout(new BoxLayout(tempPanel, Orientation.VERTICAL.getAxis()));
         tempPanel.setSize(component.getSize());
         tempPanel.add(component);
         tempPanel.setBorder(BorderFactory.createEmptyBorder(topIndent,leftIndent,bottomIndent,rightIndent));
         panel.add(tempPanel);
     }
 
-    JTextArea addTextArea(JPanel panel, boolean withScroll){
+    JTextArea addTextArea(JPanel panel, boolean withScroll, int width, int height){
         JTextArea textArea = new JTextArea(2,20);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
@@ -84,13 +84,23 @@ public class Window extends JFrame {
                     JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
             );
 
-            textScroll.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
+            textScroll.setMaximumSize(new Dimension(width, height));
 
             panel.add(textScroll);
         }else{
             panel.add(textArea);
         }
 
+        return textArea;
+    }
+
+    JTextArea addTextArea(JPanel panel){
+        JTextArea textArea = new JTextArea(2,20);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        Font font = new Font("Times new roman", Font.PLAIN, 18);
+        textArea.setFont(font);
+        panel.add(textArea);
         return textArea;
     }
 

@@ -10,7 +10,7 @@ public class Client {
         JPanel mainPanel = window.addPanel(Orientation.VERTICAL);
         window.setContentPane(mainPanel);
 
-        window.setVisible(true);
+
 
         JScrollPane scrollPane = window.addScroll(mainPanel);
         window.setContentPane(scrollPane);
@@ -23,13 +23,11 @@ public class Client {
             //window.addButton(tempPanel, 10, 10);
             JButton button = window.addButton(tempPanel);
             window.addBorder(button,tempPanel, 10, 10, 10, 10);
-            window.addTextArea(tempPanel, true);
+            window.addTextArea(tempPanel, true, Integer.MAX_VALUE, 50);
             mainPanel.add(tempPanel);
         }
-
-
-
-        window.revalidate();
-        window.repaint();
+        window.setVisible(true);
+        /*window.revalidate();
+        window.repaint();*/
     }
 }
