@@ -44,7 +44,7 @@ public class Window extends JFrame {
         panel.setLayout(new BoxLayout(panel, orientation.getAxis()));
     }
 
-    JPanel addPanel(Orientation orientation){
+    /*JPanel addPanel(Orientation orientation){
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, orientation.getAxis()));
         panel.setComponentOrientation(null);
@@ -61,16 +61,16 @@ public class Window extends JFrame {
         return button;
     }
 
-    void addBorder(JComponent component, JPanel panel, int topIndent, int leftIndent, int bottomIndent, int rightIndent){
+    *//*void addBorder(JComponent component, JPanel panel, int topIndent, int leftIndent, int bottomIndent, int rightIndent){
         JPanel tempPanel = new JPanel();
         tempPanel.setLayout(new BoxLayout(tempPanel, Orientation.VERTICAL.getAxis()));
         tempPanel.setSize(component.getSize());
         tempPanel.add(component);
         tempPanel.setBorder(BorderFactory.createEmptyBorder(topIndent,leftIndent,bottomIndent,rightIndent));
         panel.add(tempPanel);
-    }
+    }*//*
 
-    JTextArea addTextArea(JPanel panel, boolean withScroll, int width, int height){
+    JComponent addTextArea(JPanel panel, boolean withScroll, int width, int height){
         JTextArea textArea = new JTextArea(2,20);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
@@ -85,26 +85,96 @@ public class Window extends JFrame {
             );
 
             textScroll.setMaximumSize(new Dimension(width, height));
-
             panel.add(textScroll);
+            return textScroll;
         }else{
+            panel.setMaximumSize(new Dimension(width, height));
             panel.add(textArea);
+            return textArea;
         }
-
-        return textArea;
     }
 
-    JTextArea addTextArea(JPanel panel){
-        JTextArea textArea = new JTextArea(2,20);
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
-        Font font = new Font("Times new roman", Font.PLAIN, 18);
-        textArea.setFont(font);
-        panel.add(textArea);
-        return textArea;
-    }
 
     JScrollPane addScroll(JPanel panel){
         return new JScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    }*/
+
+    // try smth
+
+    JPanel createPanel(Orientation orient){
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, orient.getAxis()));
+        panel.setComponentOrientation(null);
+        panels.add(panel);
+        return panel;
+    }
+
+    JPanel createPanel(Orientation orient, int prefMaxWidth, int prefMaxHeight){
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, orient.getAxis()));
+        panel.setComponentOrientation(null);
+        panel.setMaximumSize(new Dimension(prefMaxWidth, prefMaxHeight));
+        panel.setPreferredSize(new Dimension(prefMaxWidth, prefMaxHeight));
+        panels.add(panel);
+        return panel;
+    }
+
+    JButton createButton(String title){
+        JButton button = new JButton(title);
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttons.add(button);
+        return button;
+    }
+
+    JButton createButton(String title, int prefMaxWidth, int prefMaxHeight){
+        JButton button = new JButton(title);
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setMaximumSize(new Dimension(prefMaxWidth, prefMaxHeight));
+        button.setPreferredSize(new Dimension(prefMaxWidth, prefMaxHeight));
+        buttons.add(button);
+        return button;
+    }
+
+    JTextArea createTextArea(int rows, int columns, int fontType, int fontSize){
+        JTextArea textArea = new JTextArea(rows,columns);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        Font font = new Font("Times new roman", fontType, fontSize);
+        textArea.setFont(font);
+        return textArea;
+    }
+
+    JTextArea createTextArea(int rows, int columns, int fontType, int fontSize, int prefMaxWidth, int prefMaxHeight){
+        JTextArea textArea = new JTextArea(rows,columns);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        Font font = new Font("Times new roman", fontType, fontSize);
+        textArea.setFont(font);
+        textArea.setPreferredSize(new Dimension(prefMaxWidth, prefMaxHeight));
+        textArea.setMaximumSize(new Dimension(prefMaxWidth, prefMaxHeight));
+        return textArea;
+    }
+
+    JScrollPane addScroll(JComponent component){
+        JScrollPane scrollPane = new JScrollPane(component, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        return scrollPane;
+    }
+
+    JScrollPane addScroll(JComponent component, int prefMaxWidth, int prefMaxHeight){
+        JScrollPane scrollPane = addScroll(component);
+        scrollPane.setPreferredSize(new Dimension(prefMaxWidth, prefMaxHeight));
+        scrollPane.setMaximumSize(new Dimension(prefMaxWidth, prefMaxHeight));
+        return scrollPane;
+    }
+
+    JPanel addBorder(JComponent component, int topIndent, int leftIndent, int bottomIndent, int rightIndent) {
+        JPanel tempPanel = new JPanel();
+        tempPanel.setLayout(new BoxLayout(tempPanel, Orientation.VERTICAL.getAxis()));
+
+        tempPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, component.getMaximumSize().height + topIndent + bottomIndent));
+
+        tempPanel.add(component);
+        tempPanel.setBorder(BorderFactory.createEmptyBorder(topIndent, leftIndent, bottomIndent, rightIndent));
+        return tempPanel;
     }
 }
